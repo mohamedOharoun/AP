@@ -1,6 +1,18 @@
 import time
 import re
 
+numbers_regex = {
+    'one': '1',
+    'two': '2',
+    'three': '3',
+    'four': '4',
+    'five': '5',
+    'six': '6',
+    'seven': '7',
+    'eight': '8',
+    'nine': '9'
+}
+
 numbers = {
     'one': 1,
     'two': 2,
@@ -27,7 +39,8 @@ def solve(input_list):
     # ...
     result = 0
     for string in input_list:
-        result += search_number(string)*10 + search_number(string[::-1])
+        # result += search_number(string)*10 + search_number(string[::-1])
+        result += search_regex(string)
     return result
 
 def search_number(string):
@@ -41,10 +54,15 @@ def search_number(string):
             if s1 in numbers.keys() or s1.isdigit():
                 return numbers[s1]
 
+def toNumber(string):
+    if string.isdigit():
+        return string
+    return numbers_regex[string]
+
 def search_regex(string):
     regex = r"\d|one|t(?:wo|hree)|f(?:our|ive)|s(?:ix|even)|eight|nine"
     var = re.findall(regex,string)
-    return int(var[0] + var[-1])
+    return int(toNumber(var[0]) + toNumber(var[-1]))
 
 strings = [
     "oneabctwo",
