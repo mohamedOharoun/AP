@@ -1,14 +1,16 @@
 import time
+import re
+
 numbers = {
-    'one': 10,
-    'two': 20,
-    'three': 30,
-    'four': 40,
-    'five': 50,
-    'six': 60,
-    'seven': 70,
-    'eight': 80,
-    'nine': 90,
+    'one': 1,
+    'two': 2,
+    'three': 3,
+    'four': 4,
+    'five': 5,
+    'six': 6,
+    'seven': 7,
+    'eight': 8,
+    'nine': 9,
     'eno': 1,
     'owt': 2,
     'eerht': 3,
@@ -25,21 +27,25 @@ def solve(input_list):
     # ...
     result = 0
     for string in input_list:
-        result += search_number(string) + search_number(string[::-1])
+        result += search_number(string)*10 + search_number(string[::-1])
     return result
 
 def search_number(string):
-    i = 0
-    for s1 in string:
+    for i, s1 in enumerate(string):
+        if s1.isdigit():
+            return int(s1)
         if s1 not in "otfsen":
-            i += 1
             continue
-        temp = s1
         for s2 in string[i+1:i+5]:
-            temp += s2
-            if temp in numbers.keys():
-                return numbers[temp]
-        i += 1
+            s1 += s2
+            if s1 in numbers.keys() or s1.isdigit():
+                return numbers[s1]
+
+def search_regex(string):
+    regex = r"\d|one|t(?:wo|hree)|f(?:our|ive)|s(?:ix|even)|eight|nine"
+    var = re.findall(regex,string)
+    return int(var[0] + var[-1])
+
 strings = [
     "oneabctwo",
     "pqrthreestueightvwx",
@@ -50,3 +56,6 @@ start = time.time()
 sol = solve(strings)
 end = time.time()
 print(sol, end - start)
+
+s = "3three2"
+search_regex(s)
