@@ -13,7 +13,6 @@ signs = {
 def solve(input_list):
     # Resuelve aqui este ejercicio
     # ...
-    is_vertical = False
     final_coordinates = [0,0]
     # Primer paso será siempre en horizontal.
     direction = "N"
