@@ -1,7 +1,5 @@
-import networkx   as nx
 from sys          import maxsize as infinite
-from Queue import *
-
+from simple_queue import *
 def bfs_path_length(graph, first_node):
     """
     Compute the shortest path length of the non-directed graph G
@@ -23,8 +21,7 @@ def bfs_path_length(graph, first_node):
     while not Q.isEmpty():
         node = Q.dequeue()
         for n in graph.neighbors(node):
-            if n not in distance.keys():
+            if distance[n] == infinite:
                 distance[n] = distance[node] + 1
                 Q.enqueue(n)
-
     return distance
