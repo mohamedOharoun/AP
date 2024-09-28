@@ -19,12 +19,11 @@ def solve(input_list):
     coordinate_index = 0
     # El resto de pasos estarán condicionados tanto en eje como en sentido según los pasos anteriores.
     for instruction in input_list:
-        coordinate_index = coordinate_index % 1
         mov_length = int(instruction[1:])
         direction = directions[direction][instruction[0]]
         sign = signs[direction]
         final_coordinates[coordinate_index] += sign * mov_length
-        coordinate_index += 1
+        coordinate_index = 1 if coordinate_index == 0 else 0
     return sum([abs(x) for x in final_coordinates])
 
 first_line = input().split()
