@@ -13,7 +13,6 @@ def solve(input_list):
     current_path = list()
     
     def dfs(cave, current_path):
-        nonlocal lowercase_visited
         nonlocal num_solutions
 
         if cave in lowercase_visited:
