@@ -19,10 +19,8 @@ def solve(input_list):
             return
         
         if cave == 'end':
-            current_path.append('end')
             num_solutions += 1
-            all_paths.append(current_path.copy())
-            current_path.pop()
+            all_paths.append(current_path.copy() + ['end'])
             return
         
         current_path.append(cave)
