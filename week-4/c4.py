@@ -14,9 +14,6 @@ def solve(input_list):
     
     def dfs(cave, current_path):
         nonlocal num_solutions
-
-        if cave in lowercase_visited:
-            return
         
         if cave == 'end':
             num_solutions += 1
@@ -27,8 +24,9 @@ def solve(input_list):
         if cave.islower():
             lowercase_visited.add(cave)
         
-        for temp in graph.neighbors(cave):
-            dfs(temp, current_path)
+        for c in graph.neighbors(cave):
+            if c not in lowercase_visited:
+                dfs(c, current_path)
         
         current_path.pop()
         lowercase_visited.discard(cave)
@@ -47,7 +45,6 @@ for j in range(num_lines):
     input_list.append(input())
 
 num_solutions, solutions_list = solve(input_list)
-
 # VPL output
 
 solutions_list.sort()
