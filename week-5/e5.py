@@ -9,27 +9,29 @@ def solve(input_list, voltage):
     for s in input_list:
         temp = s.split()
         graph.add_edge(int(temp[0]), int(temp[1]))
+
     max_level = -1
     def dfs(sol, level):
         nonlocal max_level
-        if max_level != -1 and level > max_level:
+
+        if level > max_level and max_level != -1:
             return
+        
         if sol[-1][1] == voltage:
+            if level < max_level:
+                solutions_list.clear()
             max_level = level
             solutions_list.append(sol.copy())
             return
+        
         for x in graph.successors(sol[-1][1]):
             sol.append((sol[-1][1],x))
             dfs(sol, level+1)
             sol.pop()
+    
     for x in graph.successors(0):
         sol = [(0,x)]
         dfs(sol, 1)
-    temp = list()
-    for x in solutions_list:
-        if len(x) == max_level:
-            temp.append(x)
-    solutions_list = temp
     return solutions_list
 
 first_line = input().split()
