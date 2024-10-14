@@ -19,11 +19,11 @@ def solve(graph: nx.DiGraph, u, v):
             return
         for node in graph.successors(n):
             if node not in visited:
-                temp = dist + graph.get_edge_data(n, node).get("weight")
+                temp = dist + graph[n][node]["weight"]
                 if temp <= dist_max:
                     dfs(node, temp)
-        visited.remove(n)
-        current_path.pop()
+                    current_path.pop()
+                    visited.discard(node)
         return
 
     dfs(u,0)
