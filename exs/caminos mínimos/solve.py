@@ -6,6 +6,7 @@ def solve(graph: nx.DiGraph, u, v):
     current_path = []
     dist_max = infinite
     visited = set()
+
     def dfs(n, dist):
         nonlocal dist_max
         visited.add(n)
@@ -24,12 +25,6 @@ def solve(graph: nx.DiGraph, u, v):
         visited.remove(n)
         current_path.pop()
         return
-    current_path.append(u)
-    visited.add(u)
-    for node in graph.successors(u):
-        if node not in visited:
-            dist = graph.get_edge_data(u, node)["weight"]
-            dfs(node, dist)
-        visited.discard(node)
-        current_path.pop()
+
+    dfs(u,0)
     return solutions_list
