@@ -14,7 +14,7 @@ def solve(graph: nx.DiGraph, u, v):
         if current_path[-1] == v:
             if dist < dist_max:
                 solutions_list.clear()
-            dist_max = dist
+                dist_max = dist
             solutions_list.append(current_path.copy())
             return
         for node in graph.successors(n):
