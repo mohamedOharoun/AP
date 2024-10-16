@@ -4,24 +4,25 @@ def solve(coins, change):
     curren_path = []
     current_coins = []
     solutions = []
-    def dfs(coin, pos):
+    def dfs(coin, pos, curr_change):
         nonlocal max_num
         curren_path.append(pos)
         current_coins.append(coin)
-        if sum(current_coins) > change or len(curren_path) > max_num or coin in current_coins[pos-1:]:
+        curr_change += coin
+        if curr_change > change or len(curren_path) > max_num or coin in current_coins[pos-1:]:
             return
-        if sum(current_coins) == change:
+        if curr_change == change:
             if len(curren_path) < max_num:
                 max_num = len(curren_path)
                 solutions.clear()
             solutions.append(curren_path.copy())
             return
         for i, x in enumerate(coins[pos:]):
-            dfs(x, pos+i)
+            dfs(x, pos+i+1, curr_change)
             curren_path.pop()
             current_coins.pop()
     for i, x in enumerate(coins):
-        dfs(x, i+1)
+        dfs(x, i+1, 0)
         curren_path.pop()
         current_coins.pop()
     return solutions
