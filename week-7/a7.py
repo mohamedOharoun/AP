@@ -10,7 +10,7 @@ class Node:
         self.room = room
         return
 
-    def estimate(self, items: Item):
+    def estimate(self, items):
         if self.room < 0:
             return 0
     
