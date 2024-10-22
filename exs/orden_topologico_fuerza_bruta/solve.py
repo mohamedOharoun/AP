@@ -16,7 +16,7 @@ for i in range(num):
     temp = input().split()
     graph.add_edge(int(temp[0]), int(temp[1]))
 solutions = []
-obj = My_Iterator(num+1, num+1)
+obj = My_Iterator(graph.number_of_nodes(), graph.number_of_nodes())
 for c in obj.next():
     if len(c) != len(set(c)):
         continue
