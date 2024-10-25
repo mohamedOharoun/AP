@@ -14,10 +14,21 @@ def solve(input_list):
     all_paths = []
     lowercase_visited = set()
     current_path = list()
+    special_flag = False
+    special_cave = None
     
     def dfs(cave, current_path):
         nonlocal num_solutions
+        nonlocal special_flag
+        nonlocal special_cave
         
+        if cave in lowercase_visited:
+            if cave != 'start' and not special_flag:
+                special_flag = True
+                special_cave = cave
+            else:
+                return
+         
         if cave == 'end':
             num_solutions += 1
             all_paths.append(current_path.copy() + ['end'])
@@ -28,11 +39,15 @@ def solve(input_list):
             lowercase_visited.add(cave)
         
         for c in graph.neighbors(cave):
-            if c not in lowercase_visited:
-                dfs(c, current_path)
+            dfs(c, current_path)
         
         current_path.pop()
-        lowercase_visited.discard(cave)
+        
+        if cave == special_cave:
+            special_flag = False
+            special_cave = None
+        else:
+            lowercase_visited.discard(cave)
     
     current_path.append('start')
     lowercase_visited.add('start')
