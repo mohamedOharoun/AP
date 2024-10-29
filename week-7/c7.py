@@ -7,8 +7,7 @@ def solve(items):
     def merge(left, mid, right):
         A = items[left:mid]
         B = items[mid:right]
-        i = 0
-        j = 0
+        i = j = 0
         k = left
         while i < len(A) and j < len(B):
             if A[i] < B[j]:
