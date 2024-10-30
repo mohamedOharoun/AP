@@ -64,8 +64,16 @@ def solve_branch_and_bound_DFS(capacity, items, record_visiting_order = False):
         #    2) Ramificamos (branch) por la izquierda (append)
         # ...
         if current.index < len(items):
-            right_node = Node(current.index+1, current.taken + [current.index+1], current.value + items[current.index].value, current.room - items[current.index].weight)
-            left_node = Node(current.index+1, current.taken, current.value, current.room)
+            right_node = Node(current.index+1, 
+                              current.taken + [current.index+1], 
+                              current.value + items[current.index].value, 
+                              current.room - items[current.index].weight
+                              )
+            left_node = Node(current.index+1, 
+                             current.taken, 
+                             current.value, 
+                             current.room
+                             )
             alive.append(left_node)
             alive.append(right_node)
     return incumbent.value, incumbent.taken, visiting_order
