@@ -16,7 +16,7 @@ def solve_tabulation(items):
         table[0] = items[0]
         table[1] = max(items[0], items[1])
         for i in range(2, n):
-            table[i] += max(items[i] + table[i-2], table[i-1])
+            table[i] = max(items[i] + table[i-2], table[i-1])
         return
         
     def fill_taken():
