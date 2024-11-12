@@ -6,6 +6,7 @@
 def solve_tabulation(items):
     table = [0]*len(items)
     taken = []
+    n = len(items)
     
     def fill_table():
         # Primera fase: Rellenamos la lista 'table' con las
@@ -13,13 +14,9 @@ def solve_tabulation(items):
         # beneficios que puede conseguir el ladrón).
         # ...
         table[0] = items[0]
-        n = len(items)
-        for i in range(1, n):
-            if i == n - 1:
-                table[i] += max(items[i], items[i-1])
-                continue
-            table[i] += max(items[i], items[i-1] + items[i+1])
-        print(table)
+        table[1] = max(items[0], items[1])
+        for i in range(2, n):
+            table[i] = max(items[i] + table[i-2], table[i-1])
         return
         
     def fill_taken():
@@ -41,7 +38,7 @@ def solve_tabulation(items):
         
     fill_table()
     fill_taken()
-    return table[len(table) - 1], taken
+    return table[n-1], taken
 
 first_line = input().split()
 item_count = int(first_line[0])
