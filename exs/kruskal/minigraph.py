@@ -129,7 +129,7 @@ class MiniGraph(object):
         g = self._graph
         if nodeid not in g:
             raise KeyError(nodeid)
-        _prune_edges(g, nodeid)
+        # _prune_edges(g, nodeid)
         del g[nodeid]
 
     def node(self, nodeid):
