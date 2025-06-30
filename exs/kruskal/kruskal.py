@@ -19,7 +19,6 @@ def check_cycle(tree, new_edge):
 
 def solve(input_list):
     tree_edges_list = []
-    number_nodes = 0
     graph = nx.Graph()
 
     for x in input_list:
