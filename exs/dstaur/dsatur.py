@@ -1,93 +1,77 @@
+
 import networkx as nx
 
 
-     
+def dsat_coloring(graph, order_nodes):
+    # Inicializar colores y colores vecinos
+    colors = {node: None for node in order_nodes}
+    neighbor_colors = {node: set() for node in order_nodes}
 
-def dsat_coloring(graph: nx.Graph, order_nodes):
-    def get_degree(node):
-        return len(list(graph.neighbors(node)))
-    
-    def get_saturation_degree(node):
-        # Count unique colors of neighbors
-        if nodes_colors[node] is not None:
-            return 0
-        neighbor_colors = set()
-        for neighbor in graph.neighbors(node):
-            if nodes_colors[neighbor] is not None:
-                neighbor_colors.add(nodes_colors[neighbor])
-        return len(neighbor_colors)
-    
-    def select_next_node(graph):
-        # Select node with highest saturation degree, 
-        # breaking ties by highest degree
-        uncolored_nodes = [n for n in graph.nodes() if nodes_colors[n] is None]
-        return max(uncolored_nodes, 
-                   key=lambda node: (get_saturation_degree(node), get_degree(node), -node))
-    
-    def get_smallest_available_color(node):
-        # Find smallest color not used by neighbors
-        used_colors = set()
-        for neighbor in graph.neighbors(node):
-            if nodes_colors[neighbor] is not None:
-                used_colors.add(nodes_colors[neighbor])
-        
-        # Find the smallest unused color
+    # Colorear primer nodo (máximo grado) con color 0
+    first_node = max(order_nodes, key=lambda x: (graph.degree[x], -ord(str(x)[0])))
+    colors[first_node] = 0
+
+    for neighbor in graph.neighbors(first_node):
+        neighbor_colors[neighbor].add(0)
+
+    # Colorear nodos restantes
+    while None in colors.values():
+        # Seleccionar nodo con mayor saturación, grado y orden lexicográfico
+        uncolored = [n for n in order_nodes if colors[n] is None]
+        selected = max(uncolored, key=lambda x: (len(neighbor_colors[x]), graph.degree[x], -ord(str(x)[0])))
+
+        # Asignar menor color disponible
+        used_colors = neighbor_colors[selected]
         color = 0
         while color in used_colors:
             color += 1
-        return color
+        colors[selected] = color
 
-    # Initialize color assignment
-    nodes_colors = {node: None for node in order_nodes}
-    
-    # Color the first node with the first color
-    first_node = max(order_nodes, key=get_degree)
-    nodes_colors[first_node] = 0
-    
-    # Color remaining nodes
-    while None in nodes_colors.values():
-        # Select next node to color
-        current_node = select_next_node(graph)
-        
-        # Assign smallest available color
-        nodes_colors[current_node] = get_smallest_available_color(current_node)
-    
-    return [nodes_colors[node] for node in order_nodes]
+        # Actualizar colores vecinos
+        for neighbor in graph.neighbors(selected):
+            neighbor_colors[neighbor].add(color)
 
+    return [colors[node] for node in order_nodes]
 
+input_data = """7 12
+1 2
+2 3
+3 4
+4 5
+5 6
+6 1
+7 1
+7 2
+7 3
+7 4
+7 5
+7 6
+"""
 
-def create_wheel_graph():
-    """Crea un wheel graph, centrado en 'g'
+# Convertir input en lista de líneas
+lines = input_data.strip().split("\n")
 
-    Returns:
-        tuple: Un grafo de NetworkX y la lista de nodos.
-    """
-    G = nx.Graph()
-    nodos = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-    G.add_nodes_from(nodos)
-    aristas = [('a', 'g'), ('b', 'g'), ('c', 'g'), ('d', 'g'), ('e', 'g'), ('f', 'g'),
-               ('a', 'b'), ('b', 'c'), ('c', 'd'), ('d', 'e'), ('e', 'f'), ('f', 'a')]
-    G.add_edges_from(aristas)
-    return G, nodos
+# Primera línea: número de nodos y aristas
+first_line = lines[0].split()
+num_nodes = int(first_line[0])
+num_edges = int(first_line[1])
 
-first_line = input().split()
-num_nodes  = int(first_line[0])
-num_edges  = int(first_line[1])
-    
+# Crear grafo
 graph = nx.Graph()
-graph.add_nodes_from(range(1,num_nodes+1))
+graph.add_nodes_from(range(1, num_nodes + 1))
 
+# Leer aristas
+for j in range(1, num_edges + 1):
+    parts = lines[j].split()
+    u = int(parts[0])
+    v = int(parts[1])
+    graph.add_edge(u, v)
 
-for j in range(1, num_edges+1):
-        parts = input().split()
+# Orden de los nodos
+order_nodes = list(graph.nodes())
 
-        u = int(parts[0])
-        v = int(parts[1])
-
-        graph.add_edge(u, v)
-
-
-order_nodes = graph.nodes()
+# Llamar a tu función DSATUR
 colores_nodos = dsat_coloring(graph, order_nodes)
-    
+
+# Imprimir resultado
 print(colores_nodos)
