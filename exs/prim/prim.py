@@ -3,6 +3,7 @@ def solve(graph, node):
 
     prim = nx.Graph()
     visited_nodes = set()
+    visited_nodes.add(node)
     visited_edges = set()
 
     edges_pool = set([(e[0], e[1], e[2]["weight"]) for e in graph.edges(node, data=True)])
