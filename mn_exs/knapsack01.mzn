@@ -11,8 +11,8 @@ output[ "\nTotal Value = \(valor)" ];
 %Escribir el código a partir de aquí
 
 
-var set of 1..n : taken;
-var int : valor;
+var set of ITEMS : taken;
+var 0..sum(value) : valor;
 
 constraint capacity >= sum(i in taken)(weight[i]);
 
