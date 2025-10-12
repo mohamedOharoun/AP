@@ -16,7 +16,6 @@ def solve(graph, node):
             )
         visited_edges.add((edge[0], edge[1], edge[2]))
         if edge[0] in visited_nodes and edge[1] not in visited_nodes:
-            visited_nodes.add(edge[0])
             visited_nodes.add(edge[1])
             for x in [(e[0], e[1], e[2]["weight"]) for e in graph.edges(edge[0], data=True)]:
                 edges_pool.add(x)
