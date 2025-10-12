@@ -11,7 +11,7 @@ def solve(coins, change):
         current_coins.append(coin)
         curr_change += coin
         # Se realiza la comprobación de viabilidad.
-        if curr_change > change or len(curren_path) > max_num or coin in current_coins[pos-1:]:
+        if curr_change > change or len(curren_path) > max_num:
             return
         # Se encuentra solución.
         if curr_change == change:
